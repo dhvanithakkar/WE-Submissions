@@ -1,0 +1,298 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.21 of 2022/01/12
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+\usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following two lines
+% to display URLs in blue roman font according to Springer's eBook style:
+%\usepackage{color}
+%\renewcommand\UrlFont{\color{blue}\rmfamily}
+%\urlstyle{rm}
+%
+\begin{document}
+%
+\title{Dealing with GenAI}
+%
+\subtitle{Teaching Gemini a new card game}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Dhvani Thakkar, WE Cohort 5}
+\institute{Generative AI Assignment 5}
+%
+\maketitle              % typeset the header of the contribution
+%
+\section{Introduction}
+\subsection{About}
+In this course, starting from March 2024, as a part of module 3, we are learning the limits of different GenAI Chat-bots, and what went behind creating them. We aim to experimentally get an idea of when, where and how to use them to help with coding tasks assigned to us. 
+
+\subsection{Diamonds, The Card Game}
+A different game than that available on the internet, Asokan taught this game to us in the Summer 2023 Boot-camp.
+
+\subsubsection{Setup}
+\hfill \break
+\textit{Players:}
+2 or 3 players can play, but we are considering the two player version.\\
+\textit{Deal the Decks:}
+Each player receives a full suit (13 cards) of either spades, hearts or clubs. These are the bidding cards.\\
+\textit{Diamonds on auction:}
+ Set aside the 13 diamond cards, shuffled \& face down. These are the cards to bid for.
+ 
+\subsubsection{Auction Rounds}
+\hfill \break
+\textit{Diamond auctioned:}
+ The shuffled diamonds are revealed one by one.\\
+\textit{Secret Bidding:}
+ Each player secretly chooses one card from their hand and places it face down. This is their hidden bid for the diamond. Once a bidding card has been used, it cannot be bid with again.\\
+\textit{Highest Bid Wins:}
+ All bids are revealed simultaneously. The player that bid the card with the highest point value wins the diamond.\\
+\textit{Ties \& Sharing:}
+ If players have the same highest value bids, they share the diamond's points equally (even with a decimal value).\\
+\textit{Update Score:}
+Winner of the round adds the diamond's point value to their score. \\
+
+\subsubsection{Winning}
+\hfill \break
+Thirteen auction rounds are played in the game.\\
+The player with the most points at the game's end wins.
+
+\section{Problem Statement}
+\subsection{Expected Format}
+A technical report in \LaTeX, with the result of prompting GenAI to create a computer program that uses some optimizing strategy to play the game of Diamonds against you, including:
+\begin{itemize}
+    \item Introduction/Objective/Problem statement
+    \item Prompts given
+    \item Description of the path to "teaching"
+    \item Strategy discussed
+    \item Code for strategy \& practical results of playing
+\end{itemize}
+\textbf{Word Count:} 500-1000 words.
+
+\section{Teaching Gemini the Game}
+\subsection{How it went}
+I started by giving the GenAI my rules notes from the boot-camp and asking for a Python code framework. Getting code with incorrect logic, I would ask it what it did not understand, and it would claim to understand perfectly. Correcting each inconsistency was time-consuming. Once I initiated with asking what it did not understand at the very beginning along with the rules, it questioned the unclear parts and nuances in rules and scoring.
+
+Gemini was very clear on the rules once it initially understood the game, and managed to give almost correct (if inefficient) Python code for the game-play, but soon enough, it forgets the rules it strongly asserted some prompts ago.
+
+I asked for strategies to play to make sure it understands the game. It could recognise the general flow and idea of the game to suggest bluffing, tracking cards, balancing bids and different strategies for different game phases.
+
+Post minor clarifications on number of rounds to be played\cite{ref_rounds_played} \& tie-breaking scores, I asked it to simulate the game\cite{ref_simulate}.
+
+As seen in Yahtzee\cite{ref_yahtzee_link}, Gemini can not keep a good track of scoreboards. It kept losing track of which bidding cards were used in which rounds, consequently, which cards are available to bid. Surprisingly, it perfectly drew the diamond cards on auction one-by-one, without repeating cards, and knew which round was being played.
+
+It needed prompts for basic addition\cite{ref_addition}, but when told it was wrong, changed multiple addition results. 
+
+It occasionally confused the order of tasks in a round. Once it understood what was already considered in scoring for a round, it corrected me when I asked it to modify a score\cite{ref_score_mess}. 
+
+
+% 
+\subsection{Prompts}
+\subsubsection{Starting a chat:} Initially, my prompt was: "I will list the rules of a card game called diamonds. Tell me what you do not understand from the rules...\cite{ref_init_rules}"\\
+
+Once I made sure the game was clear to the GenAI, I prompted "tell me all the rules of the diamonds game in a way you will be able to understand in a new chat", henceforth, starting with this reply\cite{ref_rules_genai} for new chats with different purposes.\\\\
+
+oh the way i struggled playing the game with this GenAI.\\
+However, there's a small catch in Diamonds! You can't bid a card with the same value you've already used. Since you used the 8 of Spades in a previous round, it's no longer available for bidding.
+\\
+Would you like to choose another spade card from your remaining hand, or would you like to forfeit this round (meaning you wouldn't bid any card and I would automatically win the 8 of Diamonds)?
+\\ did not let me regenerate that part of the response with the prompt: i have used 8 of spades before but 9 of spades is available so i can bid with it in round 7.
+\\ had to put this in the chat right after 
+\\ It is really gullible. still thinks that it is not sure what cards i have left. it keeps telling me, i keep telling it, it made it a RULE. Still. \\
+
+initially only yes- concludes game, declares me as winner saying no cards left with me, yes-gives 2 different scenarios of it choosing illegal cards and losing in any case
+
+\section{Iterating upon strategy}
+\subsection{Where it started}
+.
+\subsubsection{Prompt}: What worked-did not work
+.
+\subsection{Strategy chosen}
+.
+
+\section{Analysis and Conclusion}
+\subsubsection{Point 1}
+.\\
+
+\bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+
+
+\begin{thebibliography}{8}
+\bibitem{ref_chat_}\underline{\href{https://g.co/gemini/share/738320f7e8a6}{Link to the chat:}} Explaining rules, initial python code, basic strategies and game simulation.\\
+
+\bibitem{ref_rounds_played} Getting vague answers for number of rounds to be played in the rupes, I prompt: "number of bidding rounds should be 13 right?" to get"\\
+You're absolutely right! I apologize for the mistake in my previous explanation. There are indeed 13 bidding rounds in the Diamonds game, one for each of the hidden diamond cards. Each round follows the bidding process where players secretly choose a card from their hand and the highest bidder wins the diamond.\\
+
+\bibitem{ref_simulate} Prompt: "simulate playing the diamonds game with me" to get:
+Absolutely! Let's play a simulated game of Diamonds. Here's how it will work:\\
+
+Card Dealing: I'll randomly assign you a suit (spades or hearts) and keep the other for myself. We won't reveal them yet.\\
+Bidding Rounds: I'll announce each diamond card being revealed. You'll then tell me which card from your hand (spade or heart) you want to bid with (e.g., "7 of Spades"). I'll choose a card from my hand secretly.
+Reveal and Scoring: We'll reveal our bids, and the player with the highest card value (based on Ace being the highest) wins the diamond and its points. Ties will be split equally.\\
+Keeping Track: I'll keep track of the score and remaining cards in each hand (simulated).\\
+Ready to begin? Let me know if you'd like to proceed, and I'll deal the cards!\\
+
+\bibitem{ref_yahtzee_link}\underline{\href{https://chat.openai.com/share/949b3337-f29f-49c7-82a3-78c4bf30ee25}{Yahtzee with ChatGPT:}} Learning and playing a simulation of the game.
+
+\bibitem{ref_addition}In a game round, it had miscalculated my score. I had to explicitly tell it 36+9=45. \\
+It forfeited the next round. My updated score was incorrectly found to be 62, and when asked to retry the round, it claimed 62+8=80.
+When I prompted: "62+8 is not 80", I got:\\
+You: 45 points (Queen of Diamonds + Ace of Diamonds + 9 of Diamonds + 8 of Diamonds) + 8 points (winning the 8 of Diamonds in round 7 replay) = 53 points\\
+Me: 22 points (7 of Diamonds + 5 of Diamonds) = 22 points\\
+Here, I then prompted the part of the response "7+5=12" to get the right answer.\\
+\bibitem{ref_score_mess} I made the mistake of forgetting it already updated my score, and prompted "53+8=61. Update the scores." and got:\\
+I cannot update the score calculation. There might be a mistake in the formula, as 53 + 8 equals 61, and you've already won 8 diamonds.\\
+Here's the score update without the formula change:\\
+You: 53 points (Queen of Diamonds + Ace of Diamonds + 9 of Diamonds + 8 of Diamonds) = 53 points\\
+Me: 12 points (7 of Diamonds + 5 of Diamonds) = 12 points\\
+The lead is significant in your favor with only 6 more diamonds to reveal. Are you ready for the next round?\\
+
+
+
+\bibitem{ref_init_rules} Complete prompt:\\
+I will list the rules of a card game called diamonds. Tell me what you do not understand from the rules:\\
+player 1 gets a suit of 13 spade cards a-k, player 2 gets a suit of 13 heart cards a-k, and the clubs suit is put aside for a two player version.
+The diamond cards are randomly put on auction one by one. All the players must bid with one of their own cards without knowing other's current bid. \\
+The banker gives the diamond card to the highest bid, i.e. the bid with the most points.
+card points: 2<3<4<5<6<7<8<9<T<J<Q<K<A.\\
+The winning player gets the points of the diamond card to their column in the table. If there are multiple players that have the highest bid with the same card, the points from the diamond card are divided equally among them.\\
+The player with the most points wins at the end of the game.
+13 rounds are played.\\
+
+\bibitem{ref_rules_genai}
+Diamonds Card Game:\\
+A fun and strategic card game for two players. 
+Here are the rules: Tell me what you do not understand:\\
+Preparation:\\
+Deal the Decks: Each player receives a full deck (13 cards) of either spades or hearts (chosen randomly). These are your bidding tools.\\
+The Hidden Treasure: Set aside the 13 diamonds cards face down. These are the diamonds you'll be bidding for\\
+The Bidding Frenzy:\\
+One Diamond at a Time: We'll reveal the diamonds one by one, just like uncovering a single gem from the treasure chest.\\
+Secret Bidding: Here's the exciting part! Each player secretly chooses one card from their hand (spades or hearts) and places it face down. This is your hidden bid for the diamond.\\
+Highest Bid Wins: We reveal everyone's bids. The player who played the card with the highest point value (based on a pre-defined system, like Ace being the highest) wins the diamond! They claim the treasure!
+Ties \& Sharing: If players have the same highest value card, they share the diamond's points equally (even if it's a decimal value). It's like splitting the treasure among friends!\\
+Update Your Score: The winner of each round adds the diamond's point value to their score. The player with the most points at the game's end wins!\\
+Special Considerations:\\
+Blind Bidding: You don't know what cards others are bidding with, adding an exciting element of risk and strategy.\\
+Unique Cards Per Bid: You can't use the same card you bid with again in future rounds. Choose wisely!\\
+Bidding Resources: The unused cards in your hand (spades or hearts) are what you use throughout the game to win diamonds. Manage them strategically!\\
+Key Points to Remember:
+There are 13 bidding rounds, one for each diamond.\\
+You use cards from your dealt suit (spades or hearts) for bidding.
+Used cards cannot be used again for bidding.\\
+
+\end{thebibliography}
+
+
+\end{document}
+
+
+% \textit{Sample Heading (Fourth Level)} The contribution should contain no more than four levels of headings. 
+
+% Table~\ref{tab1} gives a summary of all heading levels.
+
+% \begin{table}
+% \caption{Table captions should be placed above the
+% tables.}\label{tab1}
+% \begin{tabular}{|l|l|l|}
+% \hline
+% Heading level &  Example & Font size and style\\
+% \hline
+% Title (centered) &  {\Large\bfseries Lecture Notes} & 14 point, bold\\
+% 1st-level heading &  {\large\bfseries 1 Introduction} & 12 point, bold\\
+% 2nd-level heading & {\bfseries 2.1 Printing Area} & 10 point, bold\\
+% 3rd-level heading & {\bfseries Run-in Heading in Bold.} Text follows & 10 point, bold\\
+% 4th-level heading & {\itshape Lowest Level Heading.} Text follows & 10 point, italic\\
+% \hline
+% \end{tabular}
+% \end{table}
+
+
+% \noindent Displayed equations are centered and set on a separate
+% line.
+% \begin{equation}
+% x + y = z
+% \end{equation}
+% Please try to avoid rasterized images for line-art diagrams and
+% schemas. Whenever possible, use vector graphics instead (see
+% Fig.~\ref{fig1}).
+
+% \begin{figure}
+% \includegraphics[width=\textwidth]{fig1.eps}
+% \caption{A figure caption is always placed below the illustration.
+% Please note that short captions are centered, while long ones are
+% justified by the macro package automatically.} \label{fig1}
+% \end{figure}
+
+% \begin{theorem}
+% This is a sample theorem. The run-in heading is set in bold, while
+% the following text appears in italics. Definitions, lemmas,
+% propositions, and corollaries are styled the same way.
+% \end{theorem}
+%
+% the environments 'definition', 'lemma', 'proposition', 'corollary',
+% 'remark', and 'example' are defined in the LLNCS documentclass as well.
+%
+% \begin{proof}
+% Proofs, examples, and remarks have the initial word in italics,
+% while the following text appears in normal font.
+% \end{proof}
+% For citations of references, we prefer the use of square brackets
+% and consecutive numbers. Citations using labels or the author/year
+% convention are also acceptable. The following bibliography provides
+% a sample reference list with entries for journal
+% articles~\cite{ref_article1}, an LNCS chapter~\cite{ref_lncs1}, a
+% book~\cite{ref_book1}, proceedings without editors~\cite{ref_proc1},
+% and a homepage~\cite{ref_url1}. Multiple citations are grouped
+% \cite{ref_article1,ref_lncs1,ref_book1},
+% \cite{ref_article1,ref_book1,ref_proc1,ref_url1}.
+
+% \begin{credits}
+% \subsubsection{\ackname} A bold run-in heading in small font size at the end of the paper is
+% used for general acknowledgments, for example: This study was funded
+% by X (grant number Y).
+
+% \subsubsection{\discintname}
+% It is now necessary to declare any competing interests or to specifically
+% state that the authors have no competing interests. Please place the
+% statement with a bold run-in heading in small font size beneath the
+% (optional) acknowledgments\footnote{If EquinOCS, our proceedings submission
+% system, is used, then the disclaimer can be provided directly in the system.},
+% for example: The authors have no competing interests to declare that are
+% relevant to the content of this article. Or: Author A has received research
+% grants from Company W. Author B has received a speaker honorarium from
+% Company X and owns stock in Company Y. Author C is a member of committee Z.
+% \end{credits}
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+
+% \bibitem{ref_lncs1}
+% Author, F., Author, S.: Title of a proceedings paper. In: Editor,
+% F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
+% Springer, Heidelberg (2016). \doi{10.10007/1234567890}
+
+% \bibitem{ref_book1}
+% Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
+% Location (1999)
+
+% \bibitem{ref_proc1}
+% Author, A.-B.: Contribution title. In: 9th International Proceedings
+% on Proceedings, pp. 1--2. Publisher, Location (2010)
+
+% \bibitem{ref_url1}
+% LNCS Homepage, \url{http://www.springer.com/lncs}, last accessed 2023/10/25
