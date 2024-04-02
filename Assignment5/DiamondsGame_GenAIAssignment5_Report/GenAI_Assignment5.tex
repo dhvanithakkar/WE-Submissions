@@ -35,7 +35,7 @@
 %
 \section{Introduction}
 \subsection{About}
-In this course, starting from March 2024, as a part of module 3, we are learning the limits of different GenAI Chat-bots, and what went behind creating them. We aim to experimentally get an idea of when, where and how to use them to help with coding tasks assigned to us. 
+In this course, starting March 2024, as a part of module 3, we are learning the limits of different GenAI Chat-bots, and what went behind creating them. We aim to experimentally get an idea of when, where and how to use them to help with coding tasks assigned to us. 
 
 \subsection{Diamonds, The Card Game}
 A different game than that available on the internet, Asokan taught this game to us in the Summer 2023 Boot-camp.
@@ -81,48 +81,82 @@ A technical report in \LaTeX, with the result of prompting GenAI to create a com
 
 \section{Teaching Gemini the Game}
 \subsection{How it went}
-I started by giving the GenAI my rules notes from the boot-camp and asking for a Python code framework. Getting code with incorrect logic, I would ask it what it did not understand, and it would claim to understand perfectly. Correcting each inconsistency was time-consuming. Once I initiated with asking what it did not understand at the very beginning along with the rules, it questioned the unclear parts and nuances in rules and scoring.
+I started with giving my rules notes from the boot-camp and asking for a Python code framework. Getting code with incorrect logic, I would ask it what it did not understand, and it would claim to understand perfectly. Correcting each inconsistency was time-consuming. Thus, I started with asking what it did not understand with the rules and it questioned the unclear parts/ nuances in rules \& scoring.
 
-Gemini was very clear on the rules once it initially understood the game, and managed to give almost correct (if inefficient) Python code for the game-play, but soon enough, it forgets the rules it strongly asserted some prompts ago.
+Gemini is very clear on the rules once explained, and managed to give almost correct (if inefficient) OOP Python code for the game-play, but soon enough, it forgets the rules it strongly asserted some prompts ago.
 
-I asked for strategies to play to make sure it understands the game. It could recognise the general flow and idea of the game to suggest bluffing, tracking cards, balancing bids and different strategies for different game phases.
+I prompted for strategies to play to make sure it understands the game. It could recognise the general flow and idea to suggest bluffing, tracking cards, balancing-bids and different strategies for game phases.
 
 Post minor clarifications on number of rounds to be played\cite{ref_rounds_played} \& tie-breaking scores, I asked it to simulate the game\cite{ref_simulate}.
 
-As seen in Yahtzee\cite{ref_yahtzee_link}, Gemini can not keep a good track of scoreboards. It kept losing track of which bidding cards were used in which rounds, consequently, which cards are available to bid. Surprisingly, it perfectly drew the diamond cards on auction one-by-one, without repeating cards, and knew which round was being played.
+As seen in Yahtzee\cite{ref_yahtzee_link}, Gemini cannot keep track of scoreboards, losing track of bidding cards already used \cite{ref_forgets_cards}\& cards available. Surprisingly, it perfectly drew the shuffled diamond cards on auction one-by-one, without repeating, and knew which round was being played.
 
 It needed prompts for basic addition\cite{ref_addition}, but when told it was wrong, changed multiple addition results. 
 
 It occasionally confused the order of tasks in a round. Once it understood what was already considered in scoring for a round, it corrected me when I asked it to modify a score\cite{ref_score_mess}. 
 
+It started forfeiting rounds near the end, even though it had higher cards left than me. 
 
 % 
-\subsection{Prompts}
-\subsubsection{Starting a chat:} Initially, my prompt was: "I will list the rules of a card game called diamonds. Tell me what you do not understand from the rules...\cite{ref_init_rules}"\\
+\subsection{Main Prompts}
+\subsubsection{Starting a chat:} Initially, my prompt was: "I will list the rules of a card game called diamonds. Tell me what you do not understand from the rules...\cite{ref_init_rules}"
 
-Once I made sure the game was clear to the GenAI, I prompted "tell me all the rules of the diamonds game in a way you will be able to understand in a new chat", henceforth, starting with this reply\cite{ref_rules_genai} for new chats with different purposes.\\\\
+Once the game was clear to the GenAI, I prompted "tell me all the rules of the diamonds game in a way you will be able to understand in a new chat", henceforth, starting with this reply\cite{ref_rules_genai} for new chats with different purposes.
 
-oh the way i struggled playing the game with this GenAI.\\
-However, there's a small catch in Diamonds! You can't bid a card with the same value you've already used. Since you used the 8 of Spades in a previous round, it's no longer available for bidding.
-\\
-Would you like to choose another spade card from your remaining hand, or would you like to forfeit this round (meaning you wouldn't bid any card and I would automatically win the 8 of Diamonds)?
-\\ did not let me regenerate that part of the response with the prompt: i have used 8 of spades before but 9 of spades is available so i can bid with it in round 7.
-\\ had to put this in the chat right after 
-\\ It is really gullible. still thinks that it is not sure what cards i have left. it keeps telling me, i keep telling it, it made it a RULE. Still. \\
-
-initially only yes- concludes game, declares me as winner saying no cards left with me, yes-gives 2 different scenarios of it choosing illegal cards and losing in any case
+\subsubsection{Framework contents:} The object oriented framework\cite{ref_colab_link} contains Classes:
+\begin{itemize}
+    \item Card 
+    \item Suits: Subclass DiamondSuit that can shuffle
+    \item Player: Subclasses HumanPlayer, RandomPlayer \& BotPlayer
+    \item DiamondsGame
+\end{itemize}
+BotPlayer has supporting decide\_bid \& divide\_median functions to facilitate choosing bids.
+DiamondsGame sets up the game, auction round \& adds players.
+A "main" function can add required players to the game, play 13 rounds \& declare winner(s).
 
 \section{Iterating upon strategy}
 \subsection{Where it started}
-.
-\subsubsection{Prompt}: What worked-did not work
-.
+The response provided when asked to "what are some strategies to play this game?"\cite{ref_strategies} was very different to when asked "give me a strategy to play this game"\cite{ref_a_strategy}. 
+
+I iterated on this with\cite{ref_strategy_chat_link}:
+\begin{itemize}
+    \item Tracking player cards, opponent cards, diamonds revealed till now
+    \item Function to decide a bid by the bot
+    \item Considering relative value of the diamond in those remaining
+    \item Trying bring it away from Early, Middle and Last rounds
+    \item Identifying strength of opponent's cards
+    \item Aggressive/Defensive for the highest and lowest diamond among those left
+\end{itemize}
+Although I asked for contingencies, returned code threw errors. Many manual fixes were required.
+
 \subsection{Strategy chosen}
-.
+\begin{itemize}
+    \item Highest remaining diamond: Bidding highest card if it can beat the opponent, else lowest card.
+    \item Lowest remaining diamond: Bidding lowers card
+    \item Comparing card averages of opponent and my cards for threshold
+    \item Relative diamond value compared to threshold for a median card in appropriate half of the hand.
+\end{itemize}
 
 \section{Analysis and Conclusion}
-\subsubsection{Point 1}
-.\\
+\subsubsection{Results}
+The Colaboratory notebook resulting from this project\cite{ref_colab_link}, complete with manual testing, debugging and additional conditions, as well as cleaning up is able to simulate the game with:
+\begin{itemize}
+    \item Two/three human players
+    \item A human/random choice player and a bot
+    \item A random choice players and human bots
+\end{itemize}
+with condition of total 2-3 players for the game to start.
+
+When tested the bot-player with a random choice player for 5,00,000 two-player games, the bot won 78.6\% of the games.
+
+\subsubsection{Conclusions}
+\begin{itemize}
+    \item Re-prompting to change certain part of the result may be very useful when Gemini allows it.
+    \item Editing the last prompt given to word it clearer is a great learning opportunity.
+    \item Gemini does a great job cross-checking and referencing its sources from Google search.
+    \item Even when self written correct code is referenced for a simulation, GenAI is likely to hallucinate.
+    \item However many contingencies are asked for, testing generated code and doing careful manual editing is necessary.
+\end{itemize}
 
 \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
@@ -131,19 +165,25 @@ initially only yes- concludes game, declares me as winner saying no cards left w
 \begin{thebibliography}{8}
 \bibitem{ref_chat_}\underline{\href{https://g.co/gemini/share/738320f7e8a6}{Link to the chat:}} Explaining rules, initial python code, basic strategies and game simulation.\\
 
-\bibitem{ref_rounds_played} Getting vague answers for number of rounds to be played in the rupes, I prompt: "number of bidding rounds should be 13 right?" to get"\\
+\bibitem{ref_rounds_played} Getting vague answers for number of rounds to be played in the rules, I prompt: "number of bidding rounds should be 13 right?" to get"\\
 You're absolutely right! I apologize for the mistake in my previous explanation. There are indeed 13 bidding rounds in the Diamonds game, one for each of the hidden diamond cards. Each round follows the bidding process where players secretly choose a card from their hand and the highest bidder wins the diamond.\\
 
 \bibitem{ref_simulate} Prompt: "simulate playing the diamonds game with me" to get:
 Absolutely! Let's play a simulated game of Diamonds. Here's how it will work:\\
 
-Card Dealing: I'll randomly assign you a suit (spades or hearts) and keep the other for myself. We won't reveal them yet.\\
-Bidding Rounds: I'll announce each diamond card being revealed. You'll then tell me which card from your hand (spade or heart) you want to bid with (e.g., "7 of Spades"). I'll choose a card from my hand secretly.
-Reveal and Scoring: We'll reveal our bids, and the player with the highest card value (based on Ace being the highest) wins the diamond and its points. Ties will be split equally.\\
-Keeping Track: I'll keep track of the score and remaining cards in each hand (simulated).\\
+\textbf{Card Dealing: }I'll randomly assign you a suit (spades or hearts) and keep the other for myself. We won't reveal them yet.\\
+\textbf{Bidding Rounds:} I'll announce each diamond card being revealed. You'll then tell me which card from your hand (spade or heart) you want to bid with (e.g., "7 of Spades"). I'll choose a card from my hand secretly.
+\textbf{Reveal and Scoring: }We'll reveal our bids, and the player with the highest card value (based on Ace being the highest) wins the diamond and its points. Ties will be split equally.\\
+\textbf{Keeping Track:} I'll keep track of the score and remaining cards in each hand (simulated).\\
 Ready to begin? Let me know if you'd like to proceed, and I'll deal the cards!\\
 
 \bibitem{ref_yahtzee_link}\underline{\href{https://chat.openai.com/share/949b3337-f29f-49c7-82a3-78c4bf30ee25}{Yahtzee with ChatGPT:}} Learning and playing a simulation of the game.
+\bibitem{ref_forgets_cards} I had used the 9 of Spades before, not the 8 of Spades:\\
+However, there's a small catch in Diamonds! You can't bid a card with the same value you've already used. Since you used the 8 of Spades in a previous round, it's no longer available for bidding.
+\\
+Would you like to choose another spade card from your remaining hand, or would you like to forfeit this round (meaning you wouldn't bid any card and I would automatically win the 8 of Diamonds)?
+\\ It did not let me regenerate that part of the response with the prompt: i have used 8 of spades before but 9 of spades is available so i can bid with it in round 7. I had to correct in the next prompt.
+
 
 \bibitem{ref_addition}In a game round, it had miscalculated my score. I had to explicitly tell it 36+9=45. \\
 It forfeited the next round. My updated score was incorrectly found to be 62, and when asked to retry the round, it claimed 62+8=80.
@@ -158,8 +198,6 @@ You: 53 points (Queen of Diamonds + Ace of Diamonds + 9 of Diamonds + 8 of Diamo
 Me: 12 points (7 of Diamonds + 5 of Diamonds) = 12 points\\
 The lead is significant in your favor with only 6 more diamonds to reveal. Are you ready for the next round?\\
 
-
-
 \bibitem{ref_init_rules} Complete prompt:\\
 I will list the rules of a card game called diamonds. Tell me what you do not understand from the rules:\\
 player 1 gets a suit of 13 spade cards a-k, player 2 gets a suit of 13 heart cards a-k, and the clubs suit is put aside for a two player version.
@@ -171,27 +209,77 @@ The player with the most points wins at the end of the game.
 13 rounds are played.\\
 
 \bibitem{ref_rules_genai}
-Diamonds Card Game:\\
-A fun and strategic card game for two players. 
+\textbf{Diamonds Card Game:\\
+}A fun and strategic card game for two players. 
 Here are the rules: Tell me what you do not understand:\\
-Preparation:\\
-Deal the Decks: Each player receives a full deck (13 cards) of either spades or hearts (chosen randomly). These are your bidding tools.\\
-The Hidden Treasure: Set aside the 13 diamonds cards face down. These are the diamonds you'll be bidding for\\
-The Bidding Frenzy:\\
-One Diamond at a Time: We'll reveal the diamonds one by one, just like uncovering a single gem from the treasure chest.\\
-Secret Bidding: Here's the exciting part! Each player secretly chooses one card from their hand (spades or hearts) and places it face down. This is your hidden bid for the diamond.\\
-Highest Bid Wins: We reveal everyone's bids. The player who played the card with the highest point value (based on a pre-defined system, like Ace being the highest) wins the diamond! They claim the treasure!
-Ties \& Sharing: If players have the same highest value card, they share the diamond's points equally (even if it's a decimal value). It's like splitting the treasure among friends!\\
-Update Your Score: The winner of each round adds the diamond's point value to their score. The player with the most points at the game's end wins!\\
-Special Considerations:\\
-Blind Bidding: You don't know what cards others are bidding with, adding an exciting element of risk and strategy.\\
-Unique Cards Per Bid: You can't use the same card you bid with again in future rounds. Choose wisely!\\
-Bidding Resources: The unused cards in your hand (spades or hearts) are what you use throughout the game to win diamonds. Manage them strategically!\\
-Key Points to Remember:
+\textbf{Preparation:\\
+}\textbf{Deal the Decks:} Each player receives a full deck (13 cards) of either spades or hearts (chosen randomly). These are your bidding tools.\\
+\textbf{The Hidden Treasure:} Set aside the 13 diamonds cards face down. These are the diamonds you'll be bidding for\\
+\textbf{The Bidding Frenzy:\\
+}\textbf{One Diamond at a Time:} We'll reveal the diamonds one by one, just like uncovering a single gem from the treasure chest.\\
+\textbf{Secret Bidding: }Here's the exciting part! Each player secretly chooses one card from their hand (spades or hearts) and places it face down. This is your hidden bid for the diamond.\\
+\textbf{Highest Bid Wins:} We reveal everyone's bids. The player who played the card with the highest point value (based on a pre-defined system, like Ace being the highest) wins the diamond! They claim the treasure!
+\textbf{Ties \& Sharing:} If players have the same highest value card, they share the diamond's points equally (even if it's a decimal value). It's like splitting the treasure among friends!\\
+\textbf{Update Your Score:} The winner of each round adds the diamond's point value to their score. The player with the most points at the game's end wins!\\
+\textbf{Special Considerations:\\}
+\textbf{Blind Bidding: }You don't know what cards others are bidding with, adding an exciting element of risk and strategy.\\
+\textbf{Unique Cards Per Bid: }You can't use the same card you bid with again in future rounds. Choose wisely!\\
+\textbf{Bidding Resources: }The unused cards in your hand (spades or hearts) are what you use throughout the game to win diamonds. Manage them strategically!\\
+\textbf{Key Points to Remember:}
 There are 13 bidding rounds, one for each diamond.\\
 You use cards from your dealt suit (spades or hearts) for bidding.
 Used cards cannot be used again for bidding.\\
 
+\bibitem{ref_strategies}
+Here are some strategies you can employ to increase your chances of winning at Diamonds:
+
+\textbf{Bidding Strength:}
+
+\textbf{Balance Offense and Defense:} While aiming for high-value diamonds, consider keeping some lower-value cards (especially higher spades/hearts) for later rounds with potentially more valuable diamonds.
+Read Your Hand: Analyze your dealt suit (spades or hearts) and identify strong and weak points. Prioritize bidding with strong cards for high-value diamonds you anticipate.\\
+\textbf{Playing the Odds:}\\
+
+\textbf{Track Revealed Diamonds: }As diamonds are revealed, keep track of which have already been won and the remaining values. This can help you predict the potential value of upcoming diamonds and adjust your bidding strategy.\\
+\textbf{Observe Your Opponent:} Pay attention to the cards your opponent bids, particularly if they consistently win with high or low values. This might indicate their remaining high cards and influence your bids.
+\textbf{Bluffing and Information Warfare:
+}
+\textbf{Sacrifice Bids:} Occasionally, bid a lower-value card to "win" a less valuable diamond. This can free up a higher-value card for a future, potentially more valuable diamond.\\
+\textbf{Calculated Risk:} Sometimes, bidding a high card for a less valuable diamond can be strategic. It might force your opponent to use a high card they were saving, putting them at a disadvantage later.
+\textbf{Resource Management:}\\
+\textbf{Prioritize Early Rounds:} Diamonds revealed early in the game tend to have lower point values. Use your weaker cards for these rounds to preserve your high-value cards for potentially more valuable diamonds later.\\
+\textbf{Calculated Discard: }If you have a very weak hand (mostly low spades/hearts), consider discarding a high card early on. This frees up space to "win" a low-value diamond you might not otherwise win, allowing you to keep your remaining high cards for later.\\
+Remember: Diamonds is a game of both chance and strategy. While these strategies can give you an edge, there's always an element of luck involved.
+
+Good luck playing Diamonds!
+
+\bibitem{ref_a_strategy}
+Here's a combined strategy for Diamonds, incorporating both resource management and playing the odds:
+
+\textbf{Early Rounds (Diamonds 1-5):}
+
+\textbf{Prioritize Discarding Low Spades/Hearts:} Aim to get rid of your weakest cards (2-5) in the first few rounds. This frees up space in your hand for potentially valuable diamonds later.
+
+\textbf{Low-Ball Bidding: }Use your remaining low-value cards (6-8) to "win" the lower-value diamonds (1-5). This preserves your high cards for later rounds.
+
+\textbf{Mid Rounds (Diamonds 6-9):}
+
+\textbf{Shift Focus: }As the revealed diamonds increase in value, start prioritizing bids with your mid-range cards (9-11).
+
+\textbf{Track Revealed Diamonds:} Keep a mental note of the diamonds already won. This can help you estimate the potential value of upcoming diamonds.
+Late Rounds (Diamonds 10-13):
+
+\textbf{Go Big or Go Home: }Save your highest value cards (Jacks, Queens, Kings, Ace) for the final rounds. These diamonds are likely to be the most valuable.
+
+\textbf{Calculated Risk: }Consider using a high card to "win" a mid-value diamond if you suspect your opponent might use a similarly high card. This can give you an advantage later.
+General Tips:
+
+\textbf{Observe Your Opponent:} Pay attention to the cards your opponent bids, particularly if they consistently win with high or low values. This might indicate their remaining high cards and influence your bids.
+Adapt and Adjust: This strategy is a guideline. Be flexible and adjust your approach based on the revealed diamonds, your remaining hand, and your opponent's plays.
+
+Remember, luck plays a part in Diamonds. However, by employing these strategies and adapting as the game progresses, you can increase your chances of outsmarting your opponent and winning the most valuable diamonds!
+
+\bibitem{ref_strategy_chat_link} \hyperlink{https://g.co/gemini/share/a8158544ac4e}{Link for the Gemini chat for strategies to play the game and their code}
+\bibitem{ref_colab_link}\hyperlink{https://colab.research.google.com/drive/1p7STrJ8kBAuQ75E07eEHfYwvUyl0YKSX?usp=sharing}{Link to the Colab Notebook containing the final code}
 \end{thebibliography}
 
 
