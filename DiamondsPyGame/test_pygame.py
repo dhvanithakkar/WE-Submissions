@@ -22,7 +22,7 @@ while running:
     
     pygame.draw.circle(screen, "red", player_pos, 40)
 
-    diam.display_card(screen, 150, 150)
+    # diam.display_card(screen, 150, 150)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:

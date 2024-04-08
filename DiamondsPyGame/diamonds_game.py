@@ -76,7 +76,7 @@ class DiamondsGame:
         
         lang.print_round_winners(winners, points, highest_bid)
         lang.print_round_scores(self.players)
-
+    
 
 
 # Function for testing ability of Bot
@@ -139,4 +139,4 @@ def human_players(name1, name2="", name3=""):
     # Display final scores
     lang.print_final_scores(game.players)
 
-human_players("Dhvani", "Aruvi")
+# human_players("Dhvani", "Aruvi")

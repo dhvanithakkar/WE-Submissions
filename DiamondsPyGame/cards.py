@@ -28,7 +28,8 @@ class DiamondSuit(Suits):
     random.shuffle(self.cards)
 
 
-class Card:
+
+class Card(pygame.sprite.Sprite):
   """Represents a single playing card"""
   suits = (lang.SPADES, lang.HEARTS, lang.DIAMONDS, lang.CLUBS)
   values = (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
@@ -40,6 +41,8 @@ class Card:
     self.suit = suit
     self.value = value
     self.image_path = ('img/'+str(self.value) + str(self.suit[0]) + '.png')
+    self.rect = None
+    self.img = None
 
   def __str__(self):
     """Returns a string representation of the card"""
@@ -47,8 +50,16 @@ class Card:
     face_value = higher_card_names[self.value - 11] if self.value > 10 else self.value
     return lang.card_name(face_value, self.suit)
   
-  def display_card(self, screen, x, y):
-    image = pygame.image.load(self.image_path).convert_alpha()
+  def display_card(self, screen, x, y, width, height):
+    image_original = pygame.image.load(self.image_path).convert_alpha()
+    self.img = pygame.transform.scale(image_original, (width, height))
+    self.rect = self.img.get_rect()
+    self.rect.width = width
+    self.rect.height = height
+    self.img.fill((255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
+    screen.blit(self.img, (x, y))
 
-    screen.blit(image, (x, y))
+  def is_clicked(self, pos):
+    """Check if the card is clicked"""
+    return self.rect.collidepoint(pos)
 

@@ -2,11 +2,12 @@ from cards import *
 
 class Player:
   """Represents a player in the game"""
-  def __init__(self, name, isBot = False):
+  def __init__(self, name, isBot = False, isRandom = False):
     self.name = name
     self.hand = []
     self.score = 0
     self.isBot = isBot
+    self.isRandom = isRandom
 
   def receive_cards(self, suit_name):
     """Gives the player a set of cards"""
@@ -58,7 +59,7 @@ class BotPlayer(Player):
 
 class RandomPlayer(Player):
     def __init__(self):
-        super().__init__(lang.RANDOM_NAME, False)  # Call parent class constructor
+        super().__init__(lang.RANDOM_NAME, False, True)  # Call parent class constructor
 
     def choose_bid(self):
         card_chosen = random.choice(self.hand)
