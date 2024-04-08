@@ -3,7 +3,7 @@ from diamonds_game import *
 from pygame_display import *
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 600
-CARD_WIDTH, CARD_HEIGHT = 60, 90
+CARD_WIDTH, CARD_HEIGHT = 80, 120
 BUTTON_WIDTH, BUTTON_HEIGHT = 150, 50
 
 MARGIN = 20
@@ -58,12 +58,25 @@ class Diamonds_PyGame:
                                 break
 
             screen.fill((255, 255, 255))  # Fill the screen with white
-            for card in player.hand:
-                screen.blit(card.image, card.rect)  # Draw all cards in player's hand
+            # for card in player.hand:
+            #     screen.blit(card.image, card.rect)  # Draw all cards in player's hand
             pygame.display.flip()
 
         return chosen_card    
     
+    def round_tester(self, round_no, opponent = None):
+        self.screen.fill(BACKGROUND_COLOR)
+        
+        print_round_title(self.screen, round_no, SCREEN_WIDTH)
+        player = self.game.players[0]
+        display_player_hand(player.hand, CARD_WIDTH, CARD_HEIGHT, self.screen, CARDS_START_Y, player.name)
+
+        revealed_diamond = self.game.diamond_pile[0]
+        self.game.revealed_diamonds.append(revealed_diamond.value)
+        revealed_diamond.display_card(screen, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT, )
+
+
+
     def play_GUI_round(self, round_no, opponent = None):
         """Display the game state on the screen"""
         self.screen.fill(BACKGROUND_COLOR)
@@ -78,38 +91,38 @@ class Diamonds_PyGame:
 
         revealed_diamond.display_card(screen, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT, )
 
-        # if opponent:
-        #     opponent_hand = opponent.get_hand_values()
+        if opponent:
+            opponent_hand = opponent.get_hand_values()
         
-        # bids = []
-        # highest_bid = 0
-        # winners = []
+        bids = []
+        highest_bid = 0
+        winners = []
 
-        # for player in self.game.players:
-        #     if player.isBot and opponent_hand:
-        #         bid = player.choose_bid(revealed_diamond, self.revealed_diamonds, opponent_hand)
-        #     elif player.isRandom:
-        #         bid = player.choose_bid()
-        #     else:
-        #         # Display cards in the players' hands
-        #         screen.fill(BACKGROUND_COLOR)
-        #         print_round_title(self.screen, round_no, SCREEN_WIDTH)
+        for player in self.game.players:
+            if player.isBot and opponent_hand:
+                bid = player.choose_bid(revealed_diamond, self.revealed_diamonds, opponent_hand)
+            elif player.isRandom:
+                bid = player.choose_bid()
+            else:
+                # Display cards in the players' hands
+                screen.fill(BACKGROUND_COLOR)
+                print_round_title(self.screen, round_no, SCREEN_WIDTH)
 
-        #         display_player_hand(player.hand, CARD_WIDTH, CARD_HEIGHT, self.screen, CARDS_START_Y)
+                display_player_hand(player.hand, CARD_WIDTH, CARD_HEIGHT, self.screen, CARDS_START_Y, player.name)
 
-        #         bid = human_bid_gui(player, screen)
+                bid = self.choose_bid_human_GUI(player, screen)
 			
-        #     bids.append(bid)
+            bids.append(bid)
 			
-        #     if bid.value > highest_bid:
-        #         winners = [player]
-        #         highest_bid = bid.value
-        #     elif bid.value == highest_bid:
-        #         winners.append(player)
+            if bid.value > highest_bid:
+                winners = [player]
+                highest_bid = bid.value
+            elif bid.value == highest_bid:
+                winners.append(player)
         
-        # revealed_diamond_value = revealed_diamond.value
+        revealed_diamond_value = revealed_diamond.value
         
-        # display_bids_and_winners(self.screen, bids, self.game.players, winners, highest_bid, round_no, revealed_diamond_value)    
+        display_bids_and_winners(self.screen, bids, self.game.players, winners, highest_bid, round_no, revealed_diamond_value)    
         
 ##################  MAIN
         
@@ -140,7 +153,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-    py_game.play_GUI_round(on_round, opponent) # on_round, opponent
+    py_game.round_tester(on_round, opponent) # on_round, opponent
 
     on_round += 1
 
