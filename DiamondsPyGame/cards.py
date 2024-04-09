@@ -69,9 +69,6 @@ class Card(pygame.sprite.Sprite):
 
     in_x = 0 <= (x_loc - self.x) <= self.width
     in_y = 0 <= (y_loc - self.y) <= self.height
-
-    if in_x and in_y:
-      print(pos, (self.x, self.y), (x_loc - self.x), self.width, (y_loc - self.y), self.height)
     
     return in_x and in_y
 

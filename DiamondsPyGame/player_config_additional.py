@@ -14,6 +14,8 @@ BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 VERMILLION = (173, 75, 64)
 
+
+
 # Button dimensions
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
@@ -137,7 +139,15 @@ def bot_or_random(screen):
     play_with_bot = False
     play_with_random = False
 
+    MARGIN = 20
+
     SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size() 
+
+    LEFT_BUTTON_X_START = SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10
+    RIGHT_BUTTON_X_START = SCREEN_WIDTH / 2 + MARGIN / 2
+
+    BUTTON_START_Y = 150
+
 
     while True:
         # Get mouse position and click events
@@ -152,22 +162,22 @@ def bot_or_random(screen):
                     click = True
 
         # Draw "Play with bot" button
-        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10, 150,
+        draw_button(screen, LEFT_BUTTON_X_START, BUTTON_START_Y,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Play with bot", font_footer)
 
         # Draw "Play with random" button
-        draw_button(screen, SCREEN_WIDTH / 2 + 10, 150,
+        draw_button(screen, RIGHT_BUTTON_X_START, BUTTON_START_Y,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Play with random", font_footer)
 
         # Check if "Play with bot" button is clicked
-        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 - 10) and \
-                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
+        if (LEFT_BUTTON_X_START) < mouse_pos[0] < (LEFT_BUTTON_X_START + BUTTON_WIDTH) and \
+                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
             if click:
                 play_with_bot = True
 
         # Check if "Play with random" button is clicked
-        if (SCREEN_WIDTH / 2 + 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH + 10) and \
-                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
+        if (RIGHT_BUTTON_X_START) < mouse_pos[0] < (RIGHT_BUTTON_X_START + BUTTON_WIDTH) and \
+                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
             if click:
                 play_with_random = True
 
@@ -185,7 +195,15 @@ def bot_or_random(screen):
 
 def add_random(screen):
 
+    MARGIN = 20
+
     SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size() 
+
+    LEFT_BUTTON_X_START = SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10
+    RIGHT_BUTTON_X_START = SCREEN_WIDTH / 2 + MARGIN / 2
+
+    BUTTON_START_Y = 150
+
     play_among_2 = False
     play_with_random = False
 
@@ -202,22 +220,22 @@ def add_random(screen):
                     click = True
 
         # Draw "Play among 2" button
-        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10, 150,
+        draw_button(screen, LEFT_BUTTON_X_START, BUTTON_START_Y,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Play among two", font_footer)
 
         # Draw "Add random player" button
-        draw_button(screen, SCREEN_WIDTH / 2 + 10, 150,
+        draw_button(screen, RIGHT_BUTTON_X_START, BUTTON_START_Y,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Add Random Player", font_footer)
 
         # Check if "Play among 2" button is clicked
-        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 - 10) and \
-                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
+        if (LEFT_BUTTON_X_START) < mouse_pos[0] < (LEFT_BUTTON_X_START + BUTTON_WIDTH) and \
+                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
             if click:
                 play_among_2 = True
 
         # Check if "Add random player" button is clicked
-        if (SCREEN_WIDTH / 2 + 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH + 10) and \
-                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
+        if (RIGHT_BUTTON_X_START) < mouse_pos[0] < (RIGHT_BUTTON_X_START + BUTTON_WIDTH) and \
+                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
             if click:
                 play_with_random = True
 
