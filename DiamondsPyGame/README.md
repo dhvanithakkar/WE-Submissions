@@ -7,7 +7,8 @@ Clone GitRepo, and run:
 
 
 ## References:
-Report for cleanup: report_pygame.pdf
+Report for GUI and Modularity:
+report_pygame.pdf
 
 Doc to divide code and jobs:  
 https://docs.google.com/document/d/1prR2oU2f0luuIkYXrv4S13uXz2OsINiBCZjeptf-mEo/edit
