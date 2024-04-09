@@ -7,7 +7,7 @@ Clone GitRepo, and run:
 
 
 ## References:
-Report for GUI and Modularity:
+Report for GUI and Modularity:  
 report_pygame.pdf
 
 Doc to divide code and jobs:  
