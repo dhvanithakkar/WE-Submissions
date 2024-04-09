@@ -114,7 +114,7 @@ def diamonds_bot_vs_random():
     return [bot_win, random_win]
 
 
-def human_players(name1, name2="", name3=""):
+def human_player_vs_bot(name1, name2="", name3=""):
     # Create a game instance
     game = DiamondsGame()
     
@@ -124,10 +124,10 @@ def human_players(name1, name2="", name3=""):
     
     opponent = game.players[1]
 
-    if name2 != "":
-        game.add_human_player(name2)
-        if name3 != "":
-            game.add_human_player(name3)
+    # if name2 != "":
+    #     game.add_human_player(name2)
+    #     if name3 != "":
+    #         game.add_human_player(name3)
 
     # Setup the game (deal cards, shuffle diamond pile)
     game.setup_game()
@@ -139,4 +139,4 @@ def human_players(name1, name2="", name3=""):
     # Display final scores
     lang.print_final_scores(game.players)
 
-# human_players("Dhvani", "Aruvi")
+human_player_vs_bot("Dhvani")
