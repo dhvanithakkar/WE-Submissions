@@ -68,7 +68,7 @@ def player_configuration(screen):
     SCREEN_HEIGHT = screen.get_height()
     
     # Create a single player input field initially
-    player_input_field = PlayerInput(SCREEN_WIDTH/2 - 20, 100, 200, 30, "")
+    player_input_field = PlayerInput(SCREEN_WIDTH/2 - 90, 100, 200, 30, "")
 
     running = True
     while running:
@@ -88,7 +88,7 @@ def player_configuration(screen):
         screen.fill(OPTION_SCREEN_COLOUR)
 
         screen_title = font.render(f"Enter Name of Player {len(player_names) + 1}:" , True, WHITE)
-        screen.blit(screen_title, (SCREEN_WIDTH/2 - 40, 20))
+        screen.blit(screen_title, (SCREEN_WIDTH/2 - 110, 20))
 
         screen_title = font_footer.render(f"Write 'quit' if finished" , True, WHITE)
         screen.blit(screen_title, (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 50))
@@ -152,22 +152,22 @@ def bot_or_random(screen):
                     click = True
 
         # Draw "Play with bot" button
-        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 - 50,
+        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10, 150,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Play with bot", font_footer)
 
         # Draw "Play with random" button
-        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 50,
+        draw_button(screen, SCREEN_WIDTH / 2 + 10, 150,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Play with random", font_footer)
 
         # Check if "Play with bot" button is clicked
-        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH / 2) and \
-                (SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 - 50) < mouse_pos[1] < (SCREEN_HEIGHT / 2 + BUTTON_HEIGHT / 2 - 50):
+        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 - 10) and \
+                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
             if click:
                 play_with_bot = True
 
         # Check if "Play with random" button is clicked
-        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH / 2) and \
-                (SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 50) < mouse_pos[1] < (SCREEN_HEIGHT / 2 + BUTTON_HEIGHT / 2 + 50):
+        if (SCREEN_WIDTH / 2 + 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH + 10) and \
+                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
             if click:
                 play_with_random = True
 
@@ -202,22 +202,22 @@ def add_random(screen):
                     click = True
 
         # Draw "Play among 2" button
-        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 - 50,
+        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10, 150,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Play among two", font_footer)
 
-        # Draw "Play with random" button
-        draw_button(screen, SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 50,
+        # Draw "Add random player" button
+        draw_button(screen, SCREEN_WIDTH / 2 + 10, 150,
                     BUTTON_WIDTH, BUTTON_HEIGHT, "Add Random Player", font_footer)
 
-        # Check if "Play with bot" button is clicked
-        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH / 2) and \
-                (SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 - 50) < mouse_pos[1] < (SCREEN_HEIGHT / 2 + BUTTON_HEIGHT / 2 - 50):
+        # Check if "Play among 2" button is clicked
+        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 - 10) and \
+                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
             if click:
                 play_among_2 = True
 
-        # Check if "Play with random" button is clicked
-        if (SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH / 2) and \
-                (SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 50) < mouse_pos[1] < (SCREEN_HEIGHT / 2 + BUTTON_HEIGHT / 2 + 50):
+        # Check if "Add random player" button is clicked
+        if (SCREEN_WIDTH / 2 + 10) < mouse_pos[0] < (SCREEN_WIDTH / 2 + BUTTON_WIDTH + 10) and \
+                (150) < mouse_pos[1] < (150 + BUTTON_HEIGHT):
             if click:
                 play_with_random = True
 
