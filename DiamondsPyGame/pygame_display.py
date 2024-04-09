@@ -18,7 +18,7 @@ def display_final_scores(players, screen):
     text_y = 50
 
     # Draw background
-    screen.fill(BACKGROUND_COLOR)
+    screen.fill(VERMILLION)
 
     # Render and display final scores
     text_surface = font.render("Final Scores:", True, WHITE)

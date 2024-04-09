@@ -139,4 +139,4 @@ def human_player_vs_bot(name1, name2="", name3=""):
     # Display final scores
     lang.print_final_scores(game.players)
 
-human_player_vs_bot("Dhvani")
+# human_player_vs_bot("Dhvani")
