@@ -111,10 +111,11 @@ def player_configuration(screen):
         pygame.display.flip()
 
     if len(player_names) == 1:
-        num_bots, num_randoms = bot_or_random(screen)
+        num_bots, num_randoms = two_button_choices(screen, "Play with Bot", "Play with Random")
 
     if len(player_names) == 2:
-        num_randoms = add_random(screen)
+        _, num_randoms = two_button_choices(screen, "Play among 2", "Add Random")
+
     
 
     print(player_names, num_bots, num_randoms)
@@ -134,10 +135,10 @@ def draw_button(screen, x, y, width, height, text, font):
     draw_text(screen, text, font, BLACK, x + width / 2, y + height / 2)
 
 # Main function
-def bot_or_random(screen):
+def two_button_choices(screen, text1, text2):
 
-    play_with_bot = False
-    play_with_random = False
+    option1 = False
+    option2 = False
 
     MARGIN = 20
 
@@ -161,92 +162,35 @@ def bot_or_random(screen):
                 if event.button == 1:
                     click = True
 
-        # Draw "Play with bot" button
+        # Draw text1 button
         draw_button(screen, LEFT_BUTTON_X_START, BUTTON_START_Y,
-                    BUTTON_WIDTH, BUTTON_HEIGHT, "Play with bot", font_footer)
+                    BUTTON_WIDTH, BUTTON_HEIGHT, text1, font_footer)
 
-        # Draw "Play with random" button
+        # Draw text2 button
         draw_button(screen, RIGHT_BUTTON_X_START, BUTTON_START_Y,
-                    BUTTON_WIDTH, BUTTON_HEIGHT, "Play with random", font_footer)
+                    BUTTON_WIDTH, BUTTON_HEIGHT, text2, font_footer)
 
-        # Check if "Play with bot" button is clicked
+        # Check if "text1" button is clicked
         if (LEFT_BUTTON_X_START) < mouse_pos[0] < (LEFT_BUTTON_X_START + BUTTON_WIDTH) and \
                 (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
             if click:
-                play_with_bot = True
+                option1 = True
 
-        # Check if "Play with random" button is clicked
+        # Check if text2 button is clicked
         if (RIGHT_BUTTON_X_START) < mouse_pos[0] < (RIGHT_BUTTON_X_START + BUTTON_WIDTH) and \
                 (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
             if click:
-                play_with_random = True
+                option2 = True
 
-        # Display "Playing with bot" if "Play with bot" button is clicked
-        if play_with_bot:
+        # Display "Playing with bot" if "text1" button is clicked
+        if option1:
             return [1,0]
-            draw_text(screen, "Playing with bot", font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
+            draw_text(screen, text1, font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
 
-        # Display "Playing with random" if "Play with random" button is clicked
-        if play_with_random:
+        # Display "Playing with random" if text2 button is clicked
+        if option2:
             return [0,1]
-            draw_text(screen, "Playing with random", font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
+            draw_text(screen, text2, font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
 
         pygame.display.flip()
 
-def add_random(screen):
-
-    MARGIN = 20
-
-    SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size() 
-
-    LEFT_BUTTON_X_START = SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10
-    RIGHT_BUTTON_X_START = SCREEN_WIDTH / 2 + MARGIN / 2
-
-    BUTTON_START_Y = 150
-
-    play_among_2 = False
-    play_with_random = False
-
-    while True:
-        # Get mouse position and click events
-        mouse_pos = pygame.mouse.get_pos()
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-        # Draw "Play among 2" button
-        draw_button(screen, LEFT_BUTTON_X_START, BUTTON_START_Y,
-                    BUTTON_WIDTH, BUTTON_HEIGHT, "Play among two", font_footer)
-
-        # Draw "Add random player" button
-        draw_button(screen, RIGHT_BUTTON_X_START, BUTTON_START_Y,
-                    BUTTON_WIDTH, BUTTON_HEIGHT, "Add Random Player", font_footer)
-
-        # Check if "Play among 2" button is clicked
-        if (LEFT_BUTTON_X_START) < mouse_pos[0] < (LEFT_BUTTON_X_START + BUTTON_WIDTH) and \
-                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
-            if click:
-                play_among_2 = True
-
-        # Check if "Add random player" button is clicked
-        if (RIGHT_BUTTON_X_START) < mouse_pos[0] < (RIGHT_BUTTON_X_START + BUTTON_WIDTH) and \
-                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
-            if click:
-                play_with_random = True
-
-        # Display "Playing with bot" if "Play with bot" button is clicked
-        if play_among_2:
-            return 0
-            draw_text(screen, "Playing with bot", font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
-
-        # Display "Playing with random" if "Play with random" button is clicked
-        if play_with_random:
-            return 1
-            draw_text(screen, "Playing with random", font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
-
-        pygame.display.flip()
