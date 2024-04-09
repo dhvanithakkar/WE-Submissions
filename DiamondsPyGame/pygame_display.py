@@ -18,18 +18,18 @@ def display_final_scores(players, screen):
     text_y = 50
 
     # Draw background
-    screen.fill(WHITE)
+    screen.fill(BACKGROUND_COLOR)
 
     # Render and display final scores
-    text_surface = font.render("Final Scores:", True, BLACK)
+    text_surface = font.render("Final Scores:", True, WHITE)
     screen.blit(text_surface, (50, text_y))
-    text_y += 50
+    text_y += 40
 
     for player in players:
-        text = f"{player.name}: {player.score} points"
-        text_surface = font.render(text, True, BLACK)
+        text = f"-> {player.name}: {player.score :.2f} points"
+        text_surface = font_footer.render(text, True, WHITE)
         screen.blit(text_surface, (50, text_y))
-        text_y += 50
+        text_y += 20
 
         if player.score > max_score:
             winners = [player]
@@ -37,19 +37,27 @@ def display_final_scores(players, screen):
         elif player.score == max_score:
             winners.append(player)
 
+    text_y += 30
     # Render and display winning information
-    text_surface = font.render("The winning score is:" , True, BLACK)
+    text_surface = font.render(f"The winning score is: {player.score :.2f}" , True, WHITE)
     screen.blit(text_surface, (50, text_y))
     text_y += 50
-    win_score = font.render(str(max_score), True, BLACK)
-    screen.blit(win_score, (50, text_y))
-    text_y += 50
     winning_names = ", ".join(winner.name for winner in winners)
-    text_surface = font.render(winning_names + " won the game!!", True, BLACK)
+    text_surface = font.render(winning_names + " won the game!!", True, WHITE)
     screen.blit(text_surface, (50, text_y))
 
     # Update the display
-    pygame.display.flip()
+
+    running = True
+
+    while running:
+        # poll for events
+        # pygame.QUIT event means the user clicked X to close your window
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        
+        pygame.display.flip()
 
 
 def display_player_hand(hand, CARD_WIDTH, CARD_HEIGHT, screen, start_y, name):
@@ -104,35 +112,56 @@ def display_bids_and_winners(screen, bids, players, winners, highest_bid, round_
     SCREEN_WIDTH = screen.get_width()
     print_round_title(screen, round_no, SCREEN_WIDTH)
 
-    text_y = 50
+    text_y = 120
+
+    text_surface = font.render(f"Bids: " , True, WHITE)
+    screen.blit(text_surface, (50, text_y))
+    text_y += 40
 
     for player, bid in zip(players, bids):
-        text = f"{player.name}: {bid}"
-        text_surface = font.render(text, True, WHITE)
+        text = f"-> {player.name}: {bid}"
+        text_surface = font_footer.render(text, True, WHITE)
         screen.blit(text_surface, (50, text_y))
-        text_y += 50
+        text_y += 20
 
     # Render and display winning information
     points_given = revealed_diamond_value / len(winners)
     for winner in winners:
         winner.score += points_given
     
+    text_y += 30    
+    
     winning_names = ", ".join(winner.name for winner in winners)
 
-    text_surface = font.render(f"The winning score is: {highest_bid}. \n{points_given} points to {winning_names}" , True, WHITE)
+    text_surface = font.render(f"The winning score is: {highest_bid}." , True, WHITE)
+    screen.blit(text_surface, (50, text_y))
+    text_y += 50
+
+    text_surface = font.render(f"{points_given:.2f} points to {winning_names}!" , True, WHITE)
     screen.blit(text_surface, (50, text_y))
     text_y += 50
 
     text_surface = font.render(f"Scores: " , True, WHITE)
     screen.blit(text_surface, (50, text_y))
-    text_y += 50
+    text_y += 40
 
     for player in players:
-        text = f"{player.name}: {player.score}"
-        text_surface = font.render(text, True, WHITE)
+        text = f"-> {player.name}: {player.score:.2f}"
+        text_surface = font_footer.render(text, True, WHITE)
         screen.blit(text_surface, (50, text_y))
-        text_y += 50
+        text_y += 20
 
 
     # Update the display
     pygame.display.flip()
+
+    running = True
+
+    while running:
+        # poll for events
+        # pygame.QUIT event means the user clicked X to close your window
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.MOUSEBUTTONDOWN:
+                running = False
+                
+        pygame.display.flip()

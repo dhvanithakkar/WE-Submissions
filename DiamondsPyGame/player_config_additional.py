@@ -4,9 +4,9 @@ import sys
 # Initialize Pygame
 pygame.init()
 
-# Screen dimensions
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+# # Screen dimensions
+# SCREEN_WIDTH = 800
+# SCREEN_HEIGHT = 600
 
 # Colors
 WHITE = (255, 255, 255)
@@ -114,7 +114,8 @@ def player_configuration(screen):
     if len(player_names) == 2:
         num_randoms = add_random(screen)
     
-    print(player_names)
+
+    print(player_names, num_bots, num_randoms)
     return [player_names, num_bots, num_randoms]
 
 
@@ -135,6 +136,8 @@ def bot_or_random(screen):
 
     play_with_bot = False
     play_with_random = False
+
+    SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size() 
 
     while True:
         # Get mouse position and click events
@@ -182,6 +185,7 @@ def bot_or_random(screen):
 
 def add_random(screen):
 
+    SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size() 
     play_among_2 = False
     play_with_random = False
 
