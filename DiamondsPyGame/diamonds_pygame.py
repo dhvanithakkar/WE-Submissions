@@ -24,7 +24,7 @@ class Diamonds_PyGame:
         self.NUM_ROUNDS = 13
         self.game = DiamondsGame()
         self.screen = screen
-        self.screen.fill(BACKGROUND_COLOR)
+        clear_to_main_background(self.screen)
     
     def add_players(self, num_bots: int, num_randoms: int, human_names: list[str]):
         if num_bots > 0:
@@ -61,7 +61,7 @@ class Diamonds_PyGame:
             pygame.display.flip()
     
     def round_tester(self, round_no, opponent = None):
-        self.screen.fill(BACKGROUND_COLOR)
+        clear_to_main_background(self.screen)
         
         print_round_title(self.screen, round_no, SCREEN_WIDTH)
         
@@ -89,7 +89,7 @@ class Diamonds_PyGame:
 
     def play_GUI_round(self, round_no, opponent = None):
         """Display the game state on the screen"""
-        self.screen.fill(BACKGROUND_COLOR)
+        clear_to_main_background(self.screen)
         
         print_round_title(self.screen, round_no, SCREEN_WIDTH)
         
@@ -114,7 +114,7 @@ class Diamonds_PyGame:
                 bid = player.choose_bid()
             else:
                 # Display cards in the players' hands
-                screen.fill(BACKGROUND_COLOR)
+                clear_to_main_background(self.screen)
                 print_round_title(self.screen, round_no, SCREEN_WIDTH)
                 
                 revealed_diamond.display_card(screen, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT, )

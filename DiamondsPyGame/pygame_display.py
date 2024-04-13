@@ -11,6 +11,18 @@ VERMILLION = (173, 75, 64)
 
 BACKGROUND_COLOR = GREEN
 
+def clear_to_main_background(screen):
+    background_image = pygame.image.load("./img/background_image.jpg")  # Replace with your image path
+    SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
+    # Resize the image to fit the screen (optional)
+    background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    # Fill the background with the image
+    screen.blit(background_image, (0, 0))
+
+    pygame.display.flip()
+
+
 def display_final_scores(players, screen):
     font = pygame.font.Font(None, 36)# Use default font
     winners = []
@@ -108,7 +120,7 @@ def print_round_title(screen, round_no, SCREEN_WIDTH):
     screen.blit(round_title, (SCREEN_WIDTH/2 - 30, 20))
 
 def display_bids_and_winners(screen, bids, players, winners, highest_bid, round_no, revealed_diamond_value):
-    screen.fill(BACKGROUND_COLOR)
+    clear_to_main_background(screen)
     SCREEN_WIDTH = screen.get_width()
     print_round_title(screen, round_no, SCREEN_WIDTH)
 
