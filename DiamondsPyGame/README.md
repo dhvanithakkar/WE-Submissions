@@ -2,13 +2,14 @@
 
 ## To play:
 Clone GitRepo, and run:
-- diamonds_game.py for text based game (one human player vs bot)
+- play_text_diamonds.py for text based game (one human player vs bot)
 - diamonds_pygame.py for GUI game
 
 
 ## References:
-Report for GUI and Modularity:  
-report_pygame.pdf
+Reports:  
+- report_pygame.pdf on GUI and Modularity
+- base_python_code_report.pdf on Python code behind the GUI and bot
 
 Doc to divide code and jobs:  
 https://docs.google.com/document/d/1prR2oU2f0luuIkYXrv4S13uXz2OsINiBCZjeptf-mEo/edit
