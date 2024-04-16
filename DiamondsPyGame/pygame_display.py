@@ -91,29 +91,44 @@ def display_player_hand(hand, CARD_WIDTH, CARD_HEIGHT, screen, start_y, name):
         card.display_card(screen, start_x, start_y, CARD_WIDTH, CARD_HEIGHT)
         start_x += overlap_gap
 
-def human_bid_gui(player, screen ):
-    """Allows the player to choose a card for bidding using a graphical interface"""
+# def human_bid_gui(player, screen ):
+    # """Allows the player to choose a card for bidding using a graphical interface"""
     
-    running = True
-    chosen_card = None
+    # running = True
+    # chosen_card = None
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # Left mouse button
-                    mouse_pos = pygame.mouse.get_pos()
-                    for card in player.hand:
-                        if card.is_clicked(mouse_pos):
-                            chosen_card = card
-                            running = False  # Exit loop once card is chosen
-                            break
+    # while running:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             running = False
+    #         elif event.type == pygame.MOUSEBUTTONDOWN:
+    #             if event.button == 1:  # Left mouse button
+    #                 mouse_pos = pygame.mouse.get_pos()
+    #                 for card in player.hand:
+    #                     if card.is_clicked(mouse_pos):
+    #                         chosen_card = card
+    #                         running = False  # Exit loop once card is chosen
+    #                         break
 
-        screen.fill((255, 255, 255))  # Fill the screen with white
-        pygame.display.flip()
+    #     screen.fill(WHITE)  # Fill the screen with white
+    #     pygame.display.flip()
     
-    return chosen_card
+    # return chosen_card
+
+def display_scores_on_main(screen, players):
+    SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
+    text_x = SCREEN_WIDTH - 150
+    text_y = 20
+    text_surface = font_footer.render(f"Scores: " , True, WHITE)
+    screen.blit(text_surface, (text_x, text_y))
+    text_y += 20
+
+    for player in players:
+        text = f"-> {player.name}: {player.score}"
+        text_surface = font_footer.render(text, True, WHITE)
+        screen.blit(text_surface, (text_x, text_y))
+        text_y += 20
+    pygame.display.flip()
 
 def print_round_title(screen, round_no, SCREEN_WIDTH):
     round_title = font.render(f"Round Number: {round_no}" , True, WHITE)

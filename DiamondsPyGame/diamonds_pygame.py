@@ -55,36 +55,33 @@ class Diamonds_PyGame:
                                 player.hand.remove(card)
                                 return card
 
-            # screen.fill((255, 255, 255))  # Fill the screen with white
-            # for card in player.hand:
-            #     screen.blit(card.image, card.rect)  # Draw all cards in player's hand
             pygame.display.flip()
     
-    def round_tester(self, round_no, opponent = None):
-        clear_to_main_background(self.screen)
+    # def round_tester(self, round_no, opponent = None):
+    #     clear_to_main_background(self.screen)
         
-        print_round_title(self.screen, round_no, SCREEN_WIDTH)
+    #     print_round_title(self.screen, round_no, SCREEN_WIDTH)
         
-        diam = Card("Diamonds", 11)
-        diam.display_card(self.screen, 100, 100, CARD_WIDTH, CARD_HEIGHT)
-        chosen_card = ""
+    #     diam = Card("Diamonds", 11)
+    #     diam.display_card(self.screen, 100, 100, CARD_WIDTH, CARD_HEIGHT)
+    #     chosen_card = ""
 
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:  # Left mouse button
-                        mouse_pos = pygame.mouse.get_pos()
-                        print(mouse_pos)
-                        if diam.is_clicked(mouse_pos):
-                            chosen_card = diam
-                            return chosen_card
-                            running = False  # Exit loop once card is chosen
-                            break
+    #     running = True
+    #     while running:
+    #         for event in pygame.event.get():
+    #             if event.type == pygame.QUIT:
+    #                 running = False
+    #             elif event.type == pygame.MOUSEBUTTONDOWN:
+    #                 if event.button == 1:  # Left mouse button
+    #                     mouse_pos = pygame.mouse.get_pos()
+    #                     print(mouse_pos)
+    #                     if diam.is_clicked(mouse_pos):
+    #                         chosen_card = diam
+    #                         return chosen_card
+    #                         running = False  # Exit loop once card is chosen
+    #                         break
         
-        print(chosen_card)
+    #     print(chosen_card)
 
 
     def play_GUI_round(self, round_no, opponent = None):
@@ -92,9 +89,10 @@ class Diamonds_PyGame:
         clear_to_main_background(self.screen)
         
         print_round_title(self.screen, round_no, SCREEN_WIDTH)
+        display_scores_on_main(screen, self.game.players)
         
-        player = self.game.players[0]
-        display_player_hand(player.hand, CARD_WIDTH, CARD_HEIGHT, self.screen, CARDS_START_Y, player.name)
+        # player = self.game.players[0]
+        # display_player_hand(player.hand, CARD_WIDTH, CARD_HEIGHT, self.screen, CARDS_START_Y, player.name)
 
         revealed_diamond = self.game.diamond_pile.pop(0)
         self.game.revealed_diamonds.append(revealed_diamond.value)
@@ -116,7 +114,8 @@ class Diamonds_PyGame:
                 # Display cards in the players' hands
                 clear_to_main_background(self.screen)
                 print_round_title(self.screen, round_no, SCREEN_WIDTH)
-                
+                display_scores_on_main(screen, self.game.players)
+
                 revealed_diamond.display_card(screen, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT, )
                 display_player_hand(player.hand, CARD_WIDTH, CARD_HEIGHT, self.screen, CARDS_START_Y, player.name)
 
@@ -129,15 +128,13 @@ class Diamonds_PyGame:
                 highest_bid = bid.value
             elif bid.value == highest_bid:
                 winners.append(player)
-        
-        revealed_diamond_value = revealed_diamond.value
-        
-        display_bids_and_winners(self.screen, bids, self.game.players, winners, highest_bid, round_no, revealed_diamond_value)    
+                
+        display_bids_and_winners(self.screen, bids, self.game.players, winners, highest_bid, round_no, revealed_diamond.value)    
         
 ##################  MAIN
         
 pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 running = True
 
 human_names, num_bots, num_randoms = player_configuration(screen)
@@ -154,7 +151,10 @@ on_round = 1
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
-    
+    py_game.play_GUI_round(on_round, opponent) # on_round, opponent
+
+    on_round += 1
+
     if on_round > py_game.NUM_ROUNDS:
             display_final_scores(py_game.game.players, screen)
             running = False
@@ -163,12 +163,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-    py_game.play_GUI_round(on_round, opponent) # on_round, opponent
-
-    on_round += 1
 
     # flip() the display to put your work on screen
-    pygame.display.flip()
+    # pygame.display.flip()
     
     # screen.fill(BACKGROUND_COLOR)
 
