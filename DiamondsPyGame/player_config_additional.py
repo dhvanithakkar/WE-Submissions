@@ -1,20 +1,15 @@
-import pygame
 import sys
+import pygame
+import english_text_pygame as lang
 
 # Initialize Pygame
 pygame.init()
-
-# # Screen dimensions
-# SCREEN_WIDTH = 800
-# SCREEN_HEIGHT = 600
 
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 VERMILLION = (173, 75, 64)
-
-
 
 # Button dimensions
 BUTTON_WIDTH = 200
@@ -41,12 +36,10 @@ class PlayerInput:
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
-    # def handle_click(self):
-    #     self.active = not self.active
 
     def handle_input(self, event):
         if event.type == pygame.KEYDOWN and self.active:
-            if self.text.strip().lower() in ['quit', 'stop']:
+            if self.text.strip().lower() in lang.quit_words:
                 self.active = False
 
             elif event.key == pygame.K_RETURN:
@@ -59,9 +52,6 @@ class PlayerInput:
                 self.text += event.unicode
 
 def player_configuration(screen):
-    # Initialize Pygame
-    pygame.display.set_caption("Player Input")
-
     # Initialize variables
     player_names = []  # List to store player names
     num_bots = 0
@@ -81,18 +71,13 @@ def player_configuration(screen):
                 player_input_field.handle_input(event)
                 player_names = player_input_field.player_names
 
-            # Handle player input field click (activate/deactivate)
-            # if player_input_field.rect.collidepoint(pygame.mouse.get_pos()):
-            #     if event.type == pygame.MOUSEBUTTONDOWN:
-            #         player_input_field.handle_click()
-
         # Draw background
         screen.fill(OPTION_SCREEN_COLOUR)
 
-        screen_title = font.render(f"Enter Name of Player {len(player_names) + 1}:" , True, WHITE)
+        screen_title = font.render(lang.enter_player_name(len(player_names) + 1) , True, WHITE)
         screen.blit(screen_title, (SCREEN_WIDTH/2 - 110, 20))
 
-        screen_title = font_footer.render(f"Write 'quit' if finished" , True, WHITE)
+        screen_title = font_footer.render(lang.quit_message, True, WHITE)
         screen.blit(screen_title, (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 50))
 
         # Draw player input field
@@ -103,18 +88,18 @@ def player_configuration(screen):
         for i, name in enumerate(player_names):
             try:
                 # Attempt to render the name, handle potential exceptions
-                name_text = font.render(f"Player {i+1}: {name}", True, BLACK)
+                name_text = font.render(lang.player_name(i+1, name), True, BLACK)
                 screen.blit(name_text, (20, name_y_pos + i * font.get_linesize()))  # Adjust positioning
             except Exception as e:  # Catch generic exceptions for robustness
-                print(f"Error rendering name: {e}")
+                print(lang.error_message(e))
 
         pygame.display.flip()
 
     if len(player_names) == 1:
-        num_bots, num_randoms = two_button_choices(screen, "Play with Bot", "Play with Random")
+        num_bots, num_randoms = button_choices(screen, "Play with Bot", "Play with Random")
 
     if len(player_names) == 2:
-        _, num_randoms = two_button_choices(screen, "Play among 2", "Add Random")
+        _, num_randoms, num_bots = button_choices(screen, "Play among 2", "Add Random", "Add Bot")
 
     
 
@@ -134,18 +119,23 @@ def draw_button(screen, x, y, width, height, text, font):
     pygame.draw.rect(screen, GRAY, (x, y, width, height))
     draw_text(screen, text, font, BLACK, x + width / 2, y + height / 2)
 
-# Main function
-def two_button_choices(screen, text1, text2):
+def button_clicked(BUTTON_X_START, BUTTON_START_Y, mouse_pos, BUTTON_WIDTH, BUTTON_HEIGHT):
+        return (BUTTON_X_START) < mouse_pos[0] < (BUTTON_X_START + BUTTON_WIDTH) and \
+                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT)
 
+# Main function
+def button_choices(screen, text1, text2, text3 = ""):
     option1 = False
     option2 = False
+    option3 = False
 
     MARGIN = 20
 
     SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size() 
 
-    LEFT_BUTTON_X_START = SCREEN_WIDTH / 2 - BUTTON_WIDTH - 10
-    RIGHT_BUTTON_X_START = SCREEN_WIDTH / 2 + MARGIN / 2
+    LEFT_BUTTON_X_START = SCREEN_WIDTH / 2 - BUTTON_WIDTH - MARGIN/2
+    RIGHT_BUTTON_X_START = LEFT_BUTTON_X_START + BUTTON_WIDTH + MARGIN
+    END_BUTTON_X_START = RIGHT_BUTTON_X_START + BUTTON_WIDTH + MARGIN
 
     BUTTON_START_Y = 150
 
@@ -169,28 +159,43 @@ def two_button_choices(screen, text1, text2):
         # Draw text2 button
         draw_button(screen, RIGHT_BUTTON_X_START, BUTTON_START_Y,
                     BUTTON_WIDTH, BUTTON_HEIGHT, text2, font_footer)
+        
+        if text3 != "":
+            draw_button(screen, END_BUTTON_X_START, BUTTON_START_Y,
+                    BUTTON_WIDTH, BUTTON_HEIGHT, text3, font_footer)
 
-        # Check if "text1" button is clicked
-        if (LEFT_BUTTON_X_START) < mouse_pos[0] < (LEFT_BUTTON_X_START + BUTTON_WIDTH) and \
-                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
+        # Check if text1 button is clicked
+        if button_clicked(LEFT_BUTTON_X_START, BUTTON_START_Y, mouse_pos, BUTTON_WIDTH, BUTTON_HEIGHT):
             if click:
                 option1 = True
 
         # Check if text2 button is clicked
-        if (RIGHT_BUTTON_X_START) < mouse_pos[0] < (RIGHT_BUTTON_X_START + BUTTON_WIDTH) and \
-                (BUTTON_START_Y) < mouse_pos[1] < (BUTTON_START_Y + BUTTON_HEIGHT):
+        if button_clicked(RIGHT_BUTTON_X_START, BUTTON_START_Y, mouse_pos, BUTTON_WIDTH, BUTTON_HEIGHT):
             if click:
                 option2 = True
+        
+        # Check if text3 button is clicked
+        if button_clicked(END_BUTTON_X_START, BUTTON_START_Y, mouse_pos, BUTTON_WIDTH, BUTTON_HEIGHT):
+            if click and text3 != "":
+                option3 = True
 
-        # Display "Playing with bot" if "text1" button is clicked
+        # If "text1" button is clicked
         if option1:
-            return [1,0]
-            draw_text(screen, text1, font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
+            if text3 != "":
+                return [1, 0, 0]
+            else:
+                return [1, 0]
 
-        # Display "Playing with random" if text2 button is clicked
+        # If "text2" button is clicked
         if option2:
-            return [0,1]
-            draw_text(screen, text2, font, BLACK, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150)
+            if text3 != "":
+                return [0, 1, 0]
+            else:
+                return [0, 1]
+        
+        # If "text3" button is clicked
+        if option3:
+            return [0, 0, 1]
 
         pygame.display.flip()
 

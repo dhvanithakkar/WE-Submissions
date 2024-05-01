@@ -1,6 +1,6 @@
 import random
-import english_text as lang
 import pygame
+import english_text as lang
 
 class Suits:
   """Represents a suit of cards"""
@@ -28,13 +28,10 @@ class DiamondSuit(Suits):
     random.shuffle(self.cards)
 
 
-
 class Card(pygame.sprite.Sprite):
   """Represents a single playing card"""
   suits = (lang.SPADES, lang.HEARTS, lang.DIAMONDS, lang.CLUBS)
   values = (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
-
-
   def __init__(self, suit, value):
     if suit not in Card.suits or value not in Card.values:
       raise ValueError(lang.INVALID_CARD_ERROR)
@@ -43,6 +40,9 @@ class Card(pygame.sprite.Sprite):
     self.image_path = ('img/'+str(self.value) + str(self.suit[0]) + '.png')
     self.rect = None
     self.img = None
+
+  def __eq__(self, other):
+    return self.suit == other.suit and self.value == other.value
 
   def __str__(self):
     """Returns a string representation of the card"""
@@ -72,3 +72,11 @@ class Card(pygame.sprite.Sprite):
     
     return in_x and in_y
 
+c1 = Card("Spades", 12)
+c2 = Card("Spades", 12)
+print(c1 == c2) # False right now.
+# is c1 == c2? Unless reference is same, no.
+
+# def __eq__(self, other):
+#   return self.suit == other.suit and self.value == other.value
+# Now, treats same value/suit cards as the same

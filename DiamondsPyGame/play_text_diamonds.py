@@ -1,4 +1,4 @@
-from diamonds_game.py import * 
+from diamonds_game import * 
 def human_player_vs_bot(name1, name2="", name3=""):
     # Create a game instance
     game = DiamondsGame()

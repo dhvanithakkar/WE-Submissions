@@ -1,4 +1,5 @@
 from cards import *
+from abc import abstractmethod
 
 class Player:
   """Represents a player in the game"""
@@ -18,7 +19,8 @@ class Player:
     for card in self.hand:
         hand_values.append(card.value)
     return hand_values
-
+  
+  @abstractmethod
   def choose_bid(self):
     """Prompts the player to choose a card for bidding (abstract method)"""
     pass  # Implement this method in subclasses
@@ -88,15 +90,6 @@ def divide_median(cards, revealed_diamond, higher_lower = "higher") -> int:
 def decide_bid(revealed_diamond, revealed_diamonds, my_cards, opponent_cards):
     """
     This function suggests a bid based on a given strategy, considering potential opponent cards.
-
-    Args:
-        revealed_diamond (int): Value of the diamond being bid on this round.
-        revealed_diamonds (list): List of diamond values already won.
-        my_cards (list): List of cards (integers) remaining in your hand.
-        opponent_cards (list): List of cards (integers) remaining in the opponent's hand (all same suit) - This is a theoretical analysis considering possible scenarios.
-
-    Returns:
-        int: Suggested card value to bid with.
     """
     # print(revealed_diamond, revealed_diamonds, my_cards, opponent_cards)
     # Estimate remaining high-value diamonds

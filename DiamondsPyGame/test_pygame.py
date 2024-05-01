@@ -8,6 +8,56 @@ running = True
 dt = 0
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+# def human_bid_gui(player, screen ):
+    # """Allows the player to choose a card for bidding using a graphical interface"""
+    
+    # running = True
+    # chosen_card = None
+
+    # while running:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             running = False
+    #         elif event.type == pygame.MOUSEBUTTONDOWN:
+    #             if event.button == 1:  # Left mouse button
+    #                 mouse_pos = pygame.mouse.get_pos()
+    #                 for card in player.hand:
+    #                     if card.is_clicked(mouse_pos):
+    #                         chosen_card = card
+    #                         running = False  # Exit loop once card is chosen
+    #                         break
+
+    #     screen.fill(WHITE)  # Fill the screen with white
+    #     pygame.display.flip()
+    
+    # return chosen_card
+    # def round_tester(self, round_no, opponent = None):
+    #     clear_to_main_background(self.screen)
+        
+    #     print_round_title(self.screen, round_no, SCREEN_WIDTH)
+        
+    #     diam = Card("Diamonds", 11)
+    #     diam.display_card(self.screen, 100, 100, CARD_WIDTH, CARD_HEIGHT)
+    #     chosen_card = ""
+
+    #     running = True
+    #     while running:
+    #         for event in pygame.event.get():
+    #             if event.type == pygame.QUIT:
+    #                 running = False
+    #             elif event.type == pygame.MOUSEBUTTONDOWN:
+    #                 if event.button == 1:  # Left mouse button
+    #                     mouse_pos = pygame.mouse.get_pos()
+    #                     print(mouse_pos)
+    #                     if diam.is_clicked(mouse_pos):
+    #                         chosen_card = diam
+    #                         return chosen_card
+    #                         running = False  # Exit loop once card is chosen
+    #                         break
+        
+    #     print(chosen_card)
+
+
 
 diam = Card("Diamonds", 14)
 while running:

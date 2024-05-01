@@ -20,16 +20,14 @@ INVALID_INPUT_ERROR = "Invalid input. Please enter a number."
 def CARD_NOT_IN_HAND_ERROR(chosen_value: int, hand_values: list[int]):
     return f"Card with value {chosen_value} not found in your hand {hand_values}. Try again."
 
-def ENTER_BID(name: str, hand_values: list[int]):
-    return f"{name}, choose a card value to bid among {hand_values}: "
+ENTER_BID = lambda name, hand_values: f"{name}, choose a card value to bid among {hand_values}: "
 
 def print_bids_made(players, bids):
     print("Bids made:")
     for player, bid in zip(players, bids):
         print(f"{player.name} : {bid}")
 
-def round_details(round_no: int, revealed_diamond):
-    return f"\nRound {round_no}: Revealed Diamond - {revealed_diamond}"
+round_details = lambda round_no, revealed_diamond: f"\nRound {round_no}: Revealed Diamond - {revealed_diamond}"
 
 
 def print_final_scores(players):
