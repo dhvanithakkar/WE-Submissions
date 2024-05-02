@@ -28,7 +28,7 @@ class DiamondSuit(Suits):
     random.shuffle(self.cards)
 
 
-class Card(pygame.sprite.Sprite):
+class Card:
   """Represents a single playing card"""
   suits = (lang.SPADES, lang.HEARTS, lang.DIAMONDS, lang.CLUBS)
   values = (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
