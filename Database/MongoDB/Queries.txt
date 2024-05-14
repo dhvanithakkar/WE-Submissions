@@ -1,0 +1,31 @@
+ALL POKEMONS CAPABLE OF LEARNING MOVE RETURN:
+    {   "moves": "Return"    }
+
+
+AGGREGATION PIPELINE FOR ALL MOVES POWERFUL AGAINST GRASS:
+    [
+      {
+        $lookup: {
+          from: "Type",
+          localField: "type",
+          foreignField: "name",
+          as: "move_type"
+        }
+      },
+      {
+        $unwind: "$move_type"
+      },
+      
+      {
+        $match: {
+          "move_type.strengths": "Grass"
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          name: 1,
+          type: 1
+        }
+      }
+    ]

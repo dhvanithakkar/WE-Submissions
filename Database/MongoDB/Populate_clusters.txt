@@ -1,0 +1,73 @@
+POKEMON COLLECTION:
+[
+  {
+    "name": "Bulbasaur",
+    "primary_type": "Grass",
+    "secondary_type": null,
+    "moves": ["Tackle", "Vine Whip", "Return"]
+  },
+  {
+    "name": "Charmander",
+    "primary_type": "Fire",
+    "secondary_type": null,
+    "moves": ["Tackle", "Ember", "Return"]
+  },
+  {
+    "name": "Squirtle",
+    "primary_type": "Water",
+    "secondary_type": null,
+    "moves": ["Tackle", "Water Gun", "Return"]
+  },
+  {
+    "name": "Eevee",
+    "primary_type": "Normal",
+    "secondary_type": null,
+    "moves": ["Tackle", "Headbutt", "Return"]
+  },
+  {
+    "name": "Pidgey",
+    "primary_type": "Normal",
+    "secondary_type": "Flying",
+    "moves": ["Tackle", "Wing Attack", "Return"]
+  }
+]
+
+MOVE COLLECTION:
+[
+  { "name": "Tackle", "power": 35, "type": "Normal", "learnable_pokemon": ["Bulbasaur", "Charmander", "Squirtle", "Eevee", "Pidgey"] },
+  { "name": "Water Gun", "power": 40, "type": "Water", "learnable_pokemon": ["Squirtle"] },
+  { "name": "Ember", "power": 40, "type": "Fire", "learnable_pokemon": ["Charmander"] },
+  { "name": "Vine Whip", "power": 40, "type": "Grass", "learnable_pokemon": ["Bulbasaur"] },
+  { "name": "Wing Attack", "power": 65, "type": "Flying", "learnable_pokemon": ["Pidgey"] },
+  { "name": "Headbutt", "power": 70, "type": "Normal", "learnable_pokemon": ["Eevee"] },
+  { "name": "Return", "power": 100, "type": "Normal", "learnable_pokemon": ["Bulbasaur", "Charmander", "Squirtle", "Eevee", "Pidgey"] }
+]
+
+TYPE COLLECTION:
+[
+  {
+    "name": "Grass",
+    "weaknesses": ["Fire", "Flying"],
+    "strengths": ["Water"]
+  },
+  {
+    "name": "Fire",
+    "weaknesses": ["Water"],
+    "strengths": ["Grass"]
+  },
+  {
+    "name": "Water",
+    "weaknesses": ["Grass"],
+    "strengths": ["Fire"]
+  },
+  {
+    "name": "Normal",
+    "weaknesses": [],
+    "strengths": []
+  },
+  {
+    "name": "Flying",
+    "weaknesses": [],
+    "strengths": ["Grass"]
+  }
+]
